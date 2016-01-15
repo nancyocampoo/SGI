@@ -17,7 +17,7 @@ void crearTorreBase();
 void crearCuerpo();
 void crearRelieve();
 void crearBase();
-void crearCubo();
+void crearCubo(float x, float y, float z);
 void crearCruz();
 void crearPoligono(float lados);
 void crearCono(float lados);

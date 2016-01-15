@@ -5,6 +5,20 @@
 #include "luces.h"
 #include "modelado.h"
 
+void crearCuerpo() {
+	cuerpo = glGenLists(1);
+	if (cuerpo != 0)
+	{
+		glNewList(cuerpo, GL_COMPILE);
+		glPushMatrix();
+		//textura0();
+		crearCubo(1.8,6.4,2.3);
+		glPopMatrix();
+		glEndList();
+	}
+	else puts("Se ha producido un error creando la display list.");
+}
+
 void crearTorre() {
 	torre = glGenLists(1);
 	if (torre != 0)
@@ -13,6 +27,7 @@ void crearTorre() {
 
 		glPushMatrix();
 		glTranslatef(0.0, 0.0, 0.0);
+	//	textura0();
 		glCallList(cuerpo);
 		glPopMatrix();
 
@@ -59,23 +74,22 @@ void crearTorre() {
 		glPopMatrix();
 
 		glPushMatrix();
-		glTranslatef(0.9, 0.0, 0.9);
+		glTranslatef(0.9, 0.0, 1.15);
 		glCallList(columna);
 		glPopMatrix();
 
 		glPushMatrix();
-		glTranslatef(-0.9, 0.0, 0.9);
+		glTranslatef(-0.9, 0.0, 1.15);
 		glCallList(columna);
 		glPopMatrix();
 
 		glPushMatrix();
-		glColor3f(0.0, 1.0, 1.0);
-		glTranslatef(-0.9, 0.0, -0.9);
+		glTranslatef(-0.9, 0.0, -1.15);
 		glCallList(columna);
 		glPopMatrix();
 
 		glPushMatrix();
-		glTranslatef(0.9, 0.0, -0.9);
+		glTranslatef(0.9, 0.0, -1.15);
 		glCallList(columna);
 		glPopMatrix();
 
@@ -195,18 +209,6 @@ void crearTorreBase() {
 		glEndList();
 	}
 	else puts("Se ha producido un error creando la display list.");
-
-}
-void crearCuerpo() {
-	cuerpo = glGenLists(1);
-	if (cuerpo != 0)
-	{
-		glNewList(cuerpo, GL_COMPILE);
-		glScalef(1.8, 6.3, 1.8);
-		glutSolidCube(1);
-		glEndList();
-	}
-	else puts("Se ha producido un error creando la display list.");
 }
 
 void crearRelieve() {
@@ -215,7 +217,7 @@ void crearRelieve() {
 	{
 		glNewList(linea, GL_COMPILE);
 		glColor3f(0.0, 0.0, 1.0);
-		glScalef(2.0, 0.1, 2.0);
+		glScalef(2.0, 0.1, 2.5);
 		glutSolidCube(1);
 		glEndList();
 	}
@@ -226,86 +228,72 @@ void crearBase() {
 	base = glGenLists(1);
 	if (base != 0) {
 		glNewList(base, GL_COMPILE);
-		glPushMatrix();
-		glTranslated(0.0, 0.0, 0.0);
-		glScalef(3.5, 2.5, 3.5);
-		//crearCubo();
-		glCallList(cubo);
-		glPopMatrix();
-		glEnd();
+		crearCubo(3.5,2.5,3.5);
 		glEndList();
 	}
 	else puts("Se ha producido un error creando la display list.");
 }
 
-void crearCubo() {
-	cubo = glGenLists(1);
-	if (cubo!= 0) {
-		glNewList(cubo, GL_COMPILE);
-		
+void crearCubo(float x, float y, float z) {
 		glPushMatrix();
 		glBegin(GL_QUADS);
 		glNormal3f(0.0,0.0,1.0);
-		glTexCoord2f(0.0f, 0.0f); glVertex3f(-0.5, -0.5, 0.5);
-		glTexCoord2f(0.0f, 1.0f); glVertex3f(-0.5, 0.5, 0.5);
-		glTexCoord2f(1.0f, 1.0f); glVertex3f(0.5, 0.5, 0.5);
-		glTexCoord2f(1.0f, 0.0f); glVertex3f(0.5, -0.5, 0.5);
+		glTexCoord2f(0.0f, 0.0f); glVertex3f(-(x/2), -(y/2), (z/2));
+		glTexCoord2f(0.0f, y); glVertex3f(-(x / 2), (y / 2), (z / 2));
+		glTexCoord2f(x, y); glVertex3f((x / 2), (y / 2), (z / 2));
+		glTexCoord2f(x, 0.0f); glVertex3f((x / 2), -(y / 2), (z / 2));
 		glEnd();
 		glPopMatrix();
 		
 		glPushMatrix();
 		glBegin(GL_QUADS);
 		glNormal3f(1.0, 0.0, 0.0);
-		glTexCoord2f(0.0f, 0.0f); glVertex3f(0.5, -0.5, 0.5);
-		glTexCoord2f(0.0f, 1.0f); glVertex3f(0.5, 0.5, 0.5);
-		glTexCoord2f(1.0f, 1.0f); glVertex3f(0.5, 0.5, -0.5);
-		glTexCoord2f(1.0f, 0.0f); glVertex3f(0.5, -0.5, -0.5);
+		glTexCoord2f(0.0f, 0.0f); glVertex3f((x / 2), -(y / 2), (z / 2));
+		glTexCoord2f(0.0f, y); glVertex3f((x / 2), (y / 2), (z / 2));
+		glTexCoord2f(x, y); glVertex3f((x / 2), (y / 2), -(z / 2));
+		glTexCoord2f(x, 0.0f); glVertex3f((x / 2), -(y / 2), -(z / 2));
 		glEnd();
 		glPopMatrix();
 
 		glPushMatrix();
 		glBegin(GL_QUADS);
 		glNormal3f(0.0, 0.0, -1.0);
-		glTexCoord2f(0.0f, 0.0f); glVertex3f(0.5, -0.5, -0.5);
-		glTexCoord2f(0.0f, 1.0f); glVertex3f(0.5, 0.5, -0.5);
-		glTexCoord2f(1.0f, 1.0f); glVertex3f(-0.5, 0.5, -0.5);
-		glTexCoord2f(1.0f, 0.0f); glVertex3f(-0.5, -0.5, -0.5);
+		glTexCoord2f(0.0f, 0.0f); glVertex3f((x / 2), -(y / 2), -(z / 2));
+		glTexCoord2f(0.0f, y); glVertex3f((x / 2), (y / 2), -(z / 2));
+		glTexCoord2f(x, y); glVertex3f(-(x / 2), (y / 2), -(z / 2));
+		glTexCoord2f(x, 0.0f); glVertex3f(-(x / 2), -(y / 2), -(z / 2));
 		glEnd();
 		glPopMatrix();
 
 		glPushMatrix();
 		glBegin(GL_QUADS);
 		glNormal3f(-1.0, 0.0, 0.0);
-		glTexCoord2f(0.0f, 0.0f); glVertex3f(-0.5, -0.5, -0.5);
-		glTexCoord2f(0.0f, 1.0f); glVertex3f(-0.5, 0.5, -0.5);
-		glTexCoord2f(1.0f, 1.0f); glVertex3f(-0.5, 0.5, 0.5);
-		glTexCoord2f(1.0f, 0.0f); glVertex3f(-0.5, -0.5, 0.5);
+		glTexCoord2f(0.0f, 0.0f); glVertex3f(-(x / 2), -(y / 2), -(z / 2));
+		glTexCoord2f(0.0f, y); glVertex3f(-(x / 2), (y / 2), -(z / 2));
+		glTexCoord2f(x, y); glVertex3f(-(x / 2), (y / 2), (z / 2));
+		glTexCoord2f(x, 0.0f); glVertex3f(-(x / 2), -(y / 2), (z / 2));
 		glEnd();
 		glPopMatrix();
 
 		glPushMatrix();
 		glBegin(GL_QUADS);
 		glNormal3f(0.0, 1.0, 0.0);
-		glTexCoord2f(0.0f, 0.0f); glVertex3f(-0.5, 0.5, 0.5);
-		glTexCoord2f(0.0f, 1.0f); glVertex3f(0.5, 0.5, 0.5);
-		glTexCoord2f(1.0f, 1.0f); glVertex3f(0.5, 0.5, -0.5);
-		glTexCoord2f(1.0f, 0.0f); glVertex3f(-0.5, 0.5, -0.5);
+		glTexCoord2f(0.0f, 0.0f); glVertex3f(-(x / 2), (y / 2), (z / 2));
+		glTexCoord2f(0.0f, y); glVertex3f((x / 2), (y / 2), (z / 2));
+		glTexCoord2f(x, y); glVertex3f((x / 2), (y / 2), -(z / 2));
+		glTexCoord2f(x, 0.0f); glVertex3f(-(x / 2), (y / 2), -(z / 2));
 		glEnd();
 		glPopMatrix();
 
 		glPushMatrix();
 		glBegin(GL_QUADS);
 		glNormal3f(0.0, -1.0, 0.0);
-		glTexCoord2f(0.0f, 0.0f); glVertex3f(-0.5, -0.5, 0.5);
-		glTexCoord2f(0.0f, 1.0f); glVertex3f(0.5, -0.5, 0.5);
-		glTexCoord2f(1.0f, 1.0f); glVertex3f(0.5, -0.5, -0.5);
-		glTexCoord2f(1.0f, 0.0f); glVertex3f(-0.5, -0.5, -0.5);
+		glTexCoord2f(0.0f, 0.0f); glVertex3f(-(x / 2), -(y / 2), (z / 2));
+		glTexCoord2f(0.0f, y); glVertex3f((x / 2), -(y / 2), (z / 2));
+		glTexCoord2f(x, y); glVertex3f((x / 2), -(y / 2), -(z / 2));
+		glTexCoord2f(x, 0.0f); glVertex3f(-(x / 2), -(y / 2), -(z / 2));
 		glEnd();
 		glPopMatrix();
-
-		glEndList();
-	}
-	else puts("Se ha producido un error creando la display list.");
 }
 
 void crearCruz() {
@@ -494,7 +482,7 @@ void CreaEscenaIluminacion(void)
 	if (escena != 0)
 	{
 		glNewList(escena, GL_COMPILE);
-		glPushMatrix();
+//		glPushMatrix();
 
 		//textura2();
 		//SemiEsfera();
@@ -510,10 +498,10 @@ void CreaEscenaIluminacion(void)
 		/*igSolidSphere(20, 20);
 		glDisable(GL_TEXTURE_2D);*/
 		glTranslatef(0.0, 0.0, 0.0);
-		textura0();
+		//textura0();
 		glCallList(torrebase);
 
-		glPopMatrix();
+	//	glPopMatrix();
 		glEndList();
 	}
 }

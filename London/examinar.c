@@ -194,7 +194,8 @@ void Dibuja(void)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	/* Transformacion de la camara */
-	glMatrixMode(GL_PROJECTION);	glLoadIdentity();
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
 	gluPerspective(60.0, 1.0, 1.0, 100.0);
 	gluLookAt(ox, oy, oz, ix, iy, iz, 0, 1, 0);
 	//glTranslatef(0.0, 0.0, -5.0);
@@ -259,8 +260,10 @@ int main(int numArgumentos, char ** listaArgumentos)
 	/* Creación de la ventana de la aplicación */
 	AbreVentana (numArgumentos, listaArgumentos);
 
+	initTextura0 ("concreto.tga");
+	initTextura1 ("ventanas.tga");
+
 	crearPoligono(8);
-	crearCubo();
 	//crearArco(60,0.25,1.0);
 	crearRelieve();
 	crearCuerpo();
@@ -275,10 +278,7 @@ int main(int numArgumentos, char ** listaArgumentos)
 
 	/* Rutinas para el control de eventos */
     IniciaFuncionesCallback ();
-
-	initTextura0 ("concreto.tga");
-	/*initTextura1 ("marmol256.tga");
-	initTextura2 ("cielo256.tga");*/
+	/*initTextura2 ("cielo256.tga");*/
 
 	/* Creo la display list de la escena */
 	CreaEscenaIluminacion ();

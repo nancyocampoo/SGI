@@ -96,7 +96,6 @@ void textura0(void)
 	glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); 
 	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); 
 	glEnable (GL_TEXTURE_2D);
-
 }
 
 
